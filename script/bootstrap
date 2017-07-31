@@ -4,7 +4,16 @@ function main {
   local shome="$(cd -P -- "${BASH_SOURCE%/*}/.." && pwd -P)"
   source "$shome/script/profile"
 
-  uname -a
+  mkdir -p "$shome/vendor"
+  git clone https://github.com/aws/aws-codedeploy-agent $shome/vendor/codedeploy-agent || true
+  pushd "$shome/vendor/codedeploy-agent"
+  git reset --hard
+  git fetch
+  git checkout "v${CODEDEPLOY_VERSION}"
+
+  rsync -ia "$shome/Gemfile.lock" .
+  block compile bundler
+
 }
 
 main "$@"
