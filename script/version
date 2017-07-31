@@ -4,7 +4,7 @@ function version {
   local shome="$(cd -P -- "${BASH_SOURCE%/*}/.." && pwd -P)"
   source "$shome/script/profile"
 
-  local ver_codedeploy="0.0.1"
+  local ver_codedeploy="$(cd "$shome/vendor/codedeploy-agent" 2>/dev/null && git describe --abbrev=0 --tags | perl -pe 's{^v}{}')"
   jq -n --arg codedeploy "$ver_codedeploy" '{codedeploy: $codedeploy}'
 }
 
