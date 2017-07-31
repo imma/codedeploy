@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+function version {
+  local shome="$(cd -P -- "${BASH_SOURCE%/*}/.." && pwd -P)"
+  source "$shome/script/profile"
+
+  local ver_codedeploy="0.0.1"
+  jq -n --arg codedeploy "$ver_codedeploy" '{codedeploy: $codedeploy}'
+}
+
+version "$@"
